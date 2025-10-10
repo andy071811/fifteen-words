@@ -1,3 +1,7 @@
 .venv
 .env.docker
 Procfile.tailwind
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
