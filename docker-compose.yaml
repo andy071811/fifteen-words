@@ -1,0 +1,33 @@
+name: fifteen_words_local
+services:
+  db:
+    image: postgres:17
+    env_file:
+      - ./.env.docker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      interval: 2s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: andy071811/fifteen_words:dockercompose
+    init: true
+    volumes:
+      - .:/code
+    ports:
+      - 80:8000
+    env_file:
+      - ./.env.docker
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  postgres_data:
