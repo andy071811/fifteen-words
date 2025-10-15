@@ -1,5 +1,5 @@
 .venv
-.env.docker
+.env
 Procfile.tailwind
 __pycache__/
 *.pyc
