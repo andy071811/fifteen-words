@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1
 
-RUN apt update
+RUN apt-get update && apt-get install -y nodejs npm curl
 
 WORKDIR /app
 
@@ -12,6 +12,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 80
+WORKDIR /app/theme/static_src
+RUN npm install
+
+WORKDIR /app
 
 ENTRYPOINT [ "./django-start.sh" ]

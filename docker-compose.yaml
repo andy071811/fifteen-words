@@ -3,11 +3,11 @@ services:
   db:
     image: postgres:17
     env_file:
-      - ./.env.docker
+      - ./.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      test: pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}
       interval: 2s
       timeout: 10s
       retries: 5
@@ -20,11 +20,12 @@ services:
     image: andy071811/fifteen_words:dockercompose
     init: true
     volumes:
-      - .:/code
+      - .:/app
+      - ./theme/static:/app/static
     ports:
-      - 80:8000
+      - 8000:8000
     env_file:
-      - ./.env.docker
+      - ./.env
     restart: unless-stopped
     depends_on:
       db:
@@ -34,9 +35,10 @@ services:
     image: nginx:latest
     ports:
       - 443:443
-      - 8080:80
+      - 80:80
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./theme/static:/app/static
     depends_on:
       - app
     restart: unless-stopped
