@@ -15,5 +15,5 @@
 }
 
 .form-control {
-  @apply border border-blue-300 rounded-md w-full p-2 min-w-xl;
+  @apply border border-blue-300 rounded-md p-2 max-w-96 focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
